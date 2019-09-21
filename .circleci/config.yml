@@ -3,32 +3,78 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:10.13.0
 jobs:
-  build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:10.13.0
-
-    working_directory: ~/repo
-
+  test:
+    <<: *defaults
     steps:
       - checkout
-
-      # Download and cache dependencies
       - restore_cache:
           keys:
             # when lock file changes, use increasingly general patterns to restore cache
             - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
             - node-v1-{{ .Branch }}-
             - node-v1-
-
       - run: npm ci
-
       - save_cache:
           paths:
             - ~/usr/local/lib/node_modules  # location depends on npm version
           key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-
-      # run all linting and testing
       - run: npm run lint
-      - run: npm t
+      - run: npm t -- --verbose
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
+  prerelease:
+    # filter for master only
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ./.npmrc
+      - run: npm run release -- --skip.commit --skip.tag --skip.changelog --prerelease $(git rev-parse --short=7 HEAD)
+      - run: npm publish --tag next
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
+  release:
+    # filter for master only
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - add_ssh_keys:
+          fingerprints:
+            - "3b:ac:c5:c5:9d:30:34:7b:6e:d2:19:87:21:90:c2:87"
+      - run: git config --global user.email npmjs@heysparkbox.com
+      - run: git config --global user.name sparkuser
+      - run: npm run release
+      - run: npm publish
+      - run: git push --follow-tags origin master
+workflows:
+  version: 2
+  package-version-publish:
+    jobs:
+      - test
+      - prerelease:
+          filters:
+            branches:
+              only: master
+          requires:
+            - test
+      - approve-prerelease:
+          filters:
+            branches:
+              only: master
+          type: approval
+          requires:
+            - prerelease
+      - release:
+          filters:
+            branches:
+              only: master
+          requires:
+            - approve-prerelease

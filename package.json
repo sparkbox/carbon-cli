@@ -22,23 +22,18 @@
     "access": "public"
   },
   "bin": {
-    "cp": "dist/main.js"
+    "carbon": "dist/main.js"
   },
   "files": [
-    "dist/",
-    "man/carbon.1"
-  ],
-  "man": [
-    "man/carbon.1"
+    "dist/"
   ],
   "scripts": {
     "build": "tsc",
     "dev": "npm run build -- -w",
-    "docs": "ronn man/carbon.1.ronn",
     "lint": "eslint '**/*.ts'",
     "lint:fix": "npm run lint -- --fix",
     "prebuild": "rm -rf dist/",
-    "prepublishOnly": "npm run build && npm t && npm run docs",
+    "prepublishOnly": "npm run build",
     "release": "standard-version",
     "test": "ava"
   },
