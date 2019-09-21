@@ -3,32 +3,64 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:10.13.0
+  add_ssh_keys:
+    fingerprints:
+      - "a3:b4:4e:72:71:08:e1:63:67:ef:00:36:5f:a4:95:b3"
 jobs:
-  build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:10.13.0
-
-    working_directory: ~/repo
-
+  test:
+    <<: *defaults
     steps:
       - checkout
-
-      # Download and cache dependencies
       - restore_cache:
           keys:
             # when lock file changes, use increasingly general patterns to restore cache
             - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
             - node-v1-{{ .Branch }}-
             - node-v1-
-
       - run: npm ci
-
       - save_cache:
           paths:
             - ~/usr/local/lib/node_modules  # location depends on npm version
           key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-
-      # run all linting and testing
       - run: npm run lint
       - run: npm t
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
+  prerelease:
+    # filter for master only
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run: npm run release -- --dry-run --prerelease $(git rev-parse --short=8 HEAD)
+      - run: echo "publishing prerelease @next"
+      # - run: echo "commit and push tags back to master"
+  release:
+    # filter for master only
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run: npm run release -- --dry-run
+      - run: echo "promoting and publishing stable release"
+      - run: echo "commit and push tags back to master"
+workflows:
+  version: 2
+  package-version-publish:
+    jobs:
+      - test
+      - prerelease:
+          requires:
+            - test
+      - approve-prerelease:
+          type: approval
+          requires:
+            - prerelease
+      - release:
+          requires:
+            - approve-prerelease
