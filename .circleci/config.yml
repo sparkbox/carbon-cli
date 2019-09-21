@@ -47,7 +47,7 @@ jobs:
       - attach_workspace:
           at: ~/repo
       - run: npm run release -- --dry-run
-      - run: echo "publishing stable release"
+      - run: echo "publishing stable release @latest"
       - run: echo "commit and push tags back to master"
 workflows:
   version: 2
@@ -55,12 +55,21 @@ workflows:
     jobs:
       - test
       - prerelease:
+          filters:
+            branches:
+              only: master
           requires:
             - test
       - approve-prerelease:
+          filters:
+            branches:
+              only: master
           type: approval
           requires:
             - prerelease
       - release:
+          filters:
+            branches:
+              only: master
           requires:
             - approve-prerelease
