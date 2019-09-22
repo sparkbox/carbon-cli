@@ -25,7 +25,8 @@
     "carbon": "dist/main.js"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "images/"
   ],
   "scripts": {
     "build": "tsc",
