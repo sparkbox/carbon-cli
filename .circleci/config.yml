@@ -49,6 +49,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "3b:ac:c5:c5:9d:30:34:7b:6e:d2:19:87:21:90:c2:87"
+      - run: ssh-keyscan github.com >> ~/.ssh/known_hosts
       - run: git config --global user.email npmjs@heysparkbox.com
       - run: git config --global user.name sparkuser
       - run: npm run release
@@ -63,12 +64,16 @@ workflows:
           filters:
             branches:
               only: master
+            tags:
+              ignore: /^v.*/
           requires:
             - test
       - approve-prerelease:
           filters:
             branches:
               only: master
+            tags:
+              ignore: /^v.*/
           type: approval
           requires:
             - prerelease
@@ -76,5 +81,7 @@ workflows:
           filters:
             branches:
               only: master
+            tags:
+              ignore: /^v.*/
           requires:
             - approve-prerelease
