@@ -69,11 +69,11 @@ jobs:
       - run:
           name: promote release
           command: |
-            npm run release
-            npm publish
             ssh-keyscan github.com >> ~/.ssh/known_hosts
             git config --global user.email npmjs@heysparkbox.com
             git config --global user.name sparkuser
+            npm run release
+            npm publish
             git push --follow-tags origin master
 
 workflows:
