@@ -29,7 +29,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "coverage": "nyc ava",
+    "coverage": "nyc --reporter=lcov ava",
     "dev": "npm run build -- -w",
     "lint": "eslint '**/*.ts'",
     "lint:fix": "npm run lint -- --fix",
