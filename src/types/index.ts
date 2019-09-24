@@ -1,11 +1,13 @@
-export interface Repo {
-  url: string;
-  ssh_url: string; // remote ssh url
-  clone_url: string; // remote https url
-}
+import { ReposListForOrgResponseItem, ReposCreateForAuthenticatedUserResponse } from '@octokit/rest';
+
+export type Repo = ReposListForOrgResponseItem;
+export type NewRepo = ReposCreateForAuthenticatedUserResponse;
 
 export interface ProjectOptions {
-  projectType: string;
+  sourceRepo: string;
+  branch: string;
   projectName: string;
+  projectNameHuman: string;
   projectDir: string;
+  shouldCreateRemote: boolean;
 }

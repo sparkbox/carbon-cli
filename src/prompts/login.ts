@@ -8,8 +8,8 @@ import { password } from '../util';
 
 const gh = chalk.gray.bold('GitHub');
 
-async function login(): Promise<Answers> {
-  return await prompt([
+function login(): Promise<Answers> {
+  return prompt([
     {
       type: 'input',
       name: 'username',

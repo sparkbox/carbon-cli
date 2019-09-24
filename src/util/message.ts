@@ -5,7 +5,7 @@
 
 import chalk from 'chalk';
 import boxen from 'boxen';
-import { Repo, ProjectOptions } from '../types';
+import { NewRepo, ProjectOptions } from '../types';
 
 const { red, gray, magenta } = chalk;
 
@@ -17,16 +17,20 @@ message.error = function(...args: any[]): void {
   console.error(red(...args));
 };
 
-function overview(projectOptions: ProjectOptions, repo: Repo): void {
-  const summary = `success!
+function overview(projectOptions: ProjectOptions, newRemote?: NewRepo): void {
+  let summary = `success!
 
-❯ ${magenta.bold(projectOptions.projectDir)}
+❯ ${magenta.bold(projectOptions.projectDir)}`;
+
+  if (newRemote) {
+    summary += `
 
 ${gray('---')}
 
-${gray.bold('url')}   ${repo.url}
-${gray.bold('ssh')}   ${repo.ssh_url}
-${gray.bold('https')} ${repo.clone_url}`;
+${gray.bold('url')}   ${newRemote.url}
+${gray.bold('ssh')}   ${newRemote.ssh_url}
+${gray.bold('https')} ${newRemote.clone_url}`;
+  }
 
   console.log(
     boxen(summary, {

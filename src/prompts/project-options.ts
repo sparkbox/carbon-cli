@@ -7,33 +7,53 @@ import { prompt, registerPrompt, Answers } from 'inquirer';
 import autocomplete from 'inquirer-autocomplete-prompt';
 import chalk from 'chalk';
 import fuzzy from 'fuzzy';
-import { kebabCase } from '../util';
+import { kebabCase, startCase } from '../util';
 import { ProjectOptions } from '../types';
 
 registerPrompt('autocomplete', autocomplete);
 
-const path = (newProjectDir: string): string => {
+const displayAsPath = (newProjectDir: string): string => {
   return `${chalk.gray(process.cwd() + '/')}${chalk.cyan(kebabCase(newProjectDir))}`;
 };
 
-async function buildOptions(repos: string[]): Promise<ProjectOptions> {
+async function buildOptions(repoNames: string[]): Promise<ProjectOptions> {
   const opts = await prompt([
     {
       type: 'autocomplete',
-      name: 'projectType',
+      name: 'sourceRepo',
       message: 'search repos',
       async source(answers: Answers[], input: string): Promise<string[]> {
         input = input || '';
-        const fuzzyResult = fuzzy.filter(input, repos);
+        const fuzzyResult = fuzzy.filter(input, repoNames);
         return fuzzyResult.map(el => el.original);
       },
+    },
+    {
+      type: 'input',
+      name: 'branch',
+      message: 'branch',
+      default: 'master',
     },
     {
       type: 'input',
       name: 'projectName',
       message: 'project name',
       filter: kebabCase,
-      transformer: path,
+      transformer: displayAsPath,
+    },
+    {
+      type: 'input',
+      name: 'projectNameHuman',
+      message: 'human readable project name',
+      default({ projectName }: ProjectOptions): string {
+        return startCase(projectName);
+      },
+    },
+    {
+      type: 'confirm',
+      name: 'shouldCreateRemote',
+      message: 'create a new repo on GitHub',
+      default: false,
     },
   ]);
 

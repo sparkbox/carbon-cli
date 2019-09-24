@@ -14,7 +14,7 @@ module.exports = {
     '@typescript-eslint/camelcase': [
       2,
       {
-        allow: ['per_page', 'allow_merge_commit', 'ssh_url', 'clone_url', 'team_id'],
+        allow: ['per_page', 'allow_merge_commit', 'ssh_url', 'clone_url', 'team_id', 'archive_format'],
       },
     ],
   },
