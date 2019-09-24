@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.3](https://github.com/sparkbox/carbon-cli/compare/v0.2.2...v0.2.3) (2019-09-24)
+
+
+### Bug Fixes
+
+* release ci task ([#5](https://github.com/sparkbox/carbon-cli/issues/5)) ([05196d8](https://github.com/sparkbox/carbon-cli/commit/05196d8))
+
+
+### Features
+
+* add test coverage to ci ([#4](https://github.com/sparkbox/carbon-cli/issues/4)) ([2207d24](https://github.com/sparkbox/carbon-cli/commit/2207d24))
+
 ### [0.2.2](https://github.com/sparkbox/carbon-cli/compare/v0.2.1...v0.2.2) (2019-09-24)
 
 
