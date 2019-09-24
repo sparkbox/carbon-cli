@@ -18,4 +18,12 @@ module.exports = {
       },
     ],
   },
+  overrides: [
+    {
+      files: ['test/mocks/**/*.ts'],
+      rules: {
+        '@typescript-eslint/no-empty-function': 0
+      }
+    }
+  ],
 };
