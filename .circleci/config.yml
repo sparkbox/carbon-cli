@@ -42,7 +42,7 @@ jobs:
           paths: .
 
   prerelease:
-    # filter for master only
+    # filter for master
     <<: *defaults
     steps:
       - attach_workspace:
@@ -58,7 +58,7 @@ jobs:
           paths: .
 
   release:
-    # filter for master only
+    # filter for master
     <<: *defaults
     steps:
       - attach_workspace:
@@ -67,18 +67,27 @@ jobs:
           fingerprints:
             - "3b:ac:c5:c5:9d:30:34:7b:6e:d2:19:87:21:90:c2:87"
       - run:
-          name: promote release
+          name: push back to master
           command: |
             ssh-keyscan github.com >> ~/.ssh/known_hosts
             git config --global user.email jacobs@heysparkbox.com
             git config --global user.name iAmNathanJ
             npm run release
-            npm publish
             git push --follow-tags origin master
+
+  publish:
+    # filter for tagged
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: publish stable
+          command: npm publish
 
 workflows:
   version: 2
-  package-version-publish:
+  version-prerelease:
     jobs:
       - install-test
       - prerelease:
@@ -87,18 +96,19 @@ workflows:
           filters:
             branches:
               only: master
-            tags:
-              ignore: /.*/
       - approve-prerelease:
           type: approval
           requires:
             - prerelease
-          filters:
-            branches:
-              only: master
       - release:
           requires:
             - approve-prerelease
+  publish-stable:
+    jobs:
+      - install-test
+      - publish:
+          requires:
+            - install-test
           filters:
-            branches:
-              only: master
+            tags:
+              only: /^v.*/
