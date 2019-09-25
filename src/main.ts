@@ -36,7 +36,13 @@ async function main(): Promise<void> {
   if (shouldCreateRemote) {
     status.start('create new remote on GitHub');
     newRemote = await createRepo(gh, projectName);
-    await run(`cd ${projectDir} && git remote add origin ${newRemote.ssh_url}`);
+    await run(`
+      cd ${projectDir} &&
+      git remote add origin ${newRemote.ssh_url} &&
+      git add . &&
+      git commit --no-verify --no-gpg-sign -m "initial commit" &&
+      git push -u origin master
+    `);
     status.succeed();
   }
 

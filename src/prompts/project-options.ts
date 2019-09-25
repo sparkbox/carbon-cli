@@ -21,7 +21,7 @@ async function buildOptions(repoNames: string[]): Promise<ProjectOptions> {
     {
       type: 'autocomplete',
       name: 'sourceRepo',
-      message: 'search repos',
+      message: 'search for a repo to replicate',
       async source(answers: Answers[], input: string): Promise<string[]> {
         input = input || '';
         const fuzzyResult = fuzzy.filter(input, repoNames);
@@ -31,13 +31,13 @@ async function buildOptions(repoNames: string[]): Promise<ProjectOptions> {
     {
       type: 'input',
       name: 'branch',
-      message: 'branch',
-      default: 'master',
+      message: 'which branch',
+      default: 'template',
     },
     {
       type: 'input',
       name: 'projectName',
-      message: 'project name',
+      message: 'new project name',
       filter: kebabCase,
       transformer: displayAsPath,
     },

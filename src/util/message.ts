@@ -27,7 +27,7 @@ function overview(projectOptions: ProjectOptions, newRemote?: NewRepo): void {
 
 ${gray('---')}
 
-${gray.bold('url')}   ${newRemote.url}
+${gray.bold('url')}   ${newRemote.html_url}
 ${gray.bold('ssh')}   ${newRemote.ssh_url}
 ${gray.bold('https')} ${newRemote.clone_url}`;
   }
