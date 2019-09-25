@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/sparkbox/carbon-cli/compare/v0.3.0...v0.4.0) (2019-09-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* nothing breaking, this is to trigger a minor bump
+since current version is zero major
+
+### Bug Fixes
+
+* bump version for good publish ([#8](https://github.com/sparkbox/carbon-cli/issues/8)) ([9a85b26](https://github.com/sparkbox/carbon-cli/commit/9a85b26))
+
 ## [0.3.0](https://github.com/sparkbox/carbon-cli/compare/v0.2.3...v0.3.0) (2019-09-25)
 
 
