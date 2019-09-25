@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/sparkbox/carbon-cli/compare/v0.2.3...v0.3.0) (2019-09-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* carbon bin will now run prompts and perform i/o
+
+* add github client
+* add github auth with 2fa or personal access token
+* add build-package step
+* add build-templates step
+
+note: temporarily will create remote repos under authenticated user
+
+### Features
+
+* add initial repo templating functionality ([#6](https://github.com/sparkbox/carbon-cli/issues/6)) ([e811943](https://github.com/sparkbox/carbon-cli/commit/e811943))
+
 ### [0.2.3](https://github.com/sparkbox/carbon-cli/compare/v0.2.2...v0.2.3) (2019-09-24)
 
 
