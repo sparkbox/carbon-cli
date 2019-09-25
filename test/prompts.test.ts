@@ -28,8 +28,11 @@ test('buildOptions prompt', async t => {
   });
   const answers = await buildOptions(['repo1', 'repo2']);
   t.deepEqual(answers, {
-    projectType: 'test-projectType',
+    sourceRepo: 'test-sourceRepo',
+    branch: 'test-branch',
     projectName: 'test-projectName',
+    projectNameHuman: 'test-projectNameHuman',
     projectDir: `${process.cwd()}/test-projectName`,
+    shouldCreateRemote: false,
   });
 });

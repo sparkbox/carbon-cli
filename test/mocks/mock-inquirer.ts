@@ -1,8 +1,13 @@
-async function mockPrompt(prompts: { name: string }[]): Promise<{}> {
+interface Prompt {
+  type: string;
+  name: string;
+}
+
+async function mockPrompt(prompts: Prompt[]): Promise<{}> {
   return prompts.reduce(
     (answers, p) => ({
       ...answers,
-      [p.name]: `test-${p.name}`,
+      [p.name]: p.type === 'confirm' ? false : `test-${p.name}`,
     }),
     {},
   );

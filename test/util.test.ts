@@ -1,5 +1,5 @@
 import test from 'ava';
-import { password, kebabCase, tarUrl } from '../src/util';
+import { password, kebabCase, startCase, tarUrl } from '../src/util';
 
 test('password', t => {
   const hiddenText = password('secret');
@@ -9,6 +9,11 @@ test('password', t => {
 test('kebabCase', t => {
   const hyphenatedText = kebabCase('These Are Words');
   t.is(hyphenatedText, 'these-are-words');
+});
+
+test('startCase', t => {
+  const humanText = startCase('these-are-words');
+  t.is(humanText, 'These Are Words');
 });
 
 test('tarUrl', t => {
