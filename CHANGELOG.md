@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0](https://github.com/sparkbox/carbon-cli/compare/v0.4.0...v0.5.0) (2019-09-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* will push to remote now
+
+### Features
+
+* add initial push on repo creation ([#9](https://github.com/sparkbox/carbon-cli/issues/9)) ([5816481](https://github.com/sparkbox/carbon-cli/commit/5816481))
+
 ## [0.4.0](https://github.com/sparkbox/carbon-cli/compare/v0.3.0...v0.4.0) (2019-09-25)
 
 
