@@ -23,9 +23,6 @@ async function buildPackage(projectDir: string): Promise<void> {
       url: '',
     },
     homepage: '',
-    engines: {
-      node: '>=10',
-    },
   };
 
   const data = JSON.stringify(

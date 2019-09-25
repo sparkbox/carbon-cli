@@ -60,6 +60,7 @@
     "rewiremock": "^3.13.7",
     "sinon": "^7.5.0",
     "standard-version": "^7.0.0",
+    "tempy": "^0.3.0",
     "ts-node": "^8.3.0",
     "typescript": "^3.6.2"
   },
