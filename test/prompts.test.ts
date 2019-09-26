@@ -36,3 +36,12 @@ test('buildOptions prompt', async t => {
     shouldCreateRemote: false,
   });
 });
+
+test('confirmOptions prompt', async t => {
+  const { confirmOptions } = await rewiremock.module(() => import('../src/prompts/project-options'), {
+    inquirer: mockInquirer,
+    'inquirer-autocomplete-prompt': () => {},
+  });
+  const proceed = await confirmOptions();
+  t.false(proceed);
+});
