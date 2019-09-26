@@ -4,8 +4,8 @@ import ora from 'ora';
 import { buildPackage } from './build-package';
 import { buildTemplates } from './build-templates';
 import { github, getRepos, createRepo } from './github';
-import { buildOptions } from './prompts';
-import { message, overview, tarUrl, run } from './util';
+import { buildOptions, confirmOptions } from './prompts';
+import { message, reviewOptions, overview, tarUrl, run } from './util';
 
 const { CARBON_CLI_TOKEN } = process.env;
 const status = ora();
@@ -15,6 +15,10 @@ async function main(): Promise<void> {
   const repos = await getRepos(gh);
   const projectOptions = await buildOptions(repos.map(r => r.name));
   const { sourceRepo, branch, projectName, projectDir, shouldCreateRemote } = projectOptions;
+
+  reviewOptions(projectOptions);
+  const proceed = await confirmOptions();
+  if (!proceed) return;
 
   status.start(`initialize repo`);
   await run(`mkdir ${projectName} && cd ${projectName} && git init`);

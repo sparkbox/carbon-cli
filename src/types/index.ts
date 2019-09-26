@@ -10,4 +10,6 @@ export interface ProjectOptions {
   projectNameHuman: string;
   projectDir: string;
   shouldCreateRemote: boolean;
+  shouldInstall?: boolean;
+  owner?: string;
 }

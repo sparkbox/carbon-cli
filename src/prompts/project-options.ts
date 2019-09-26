@@ -60,4 +60,17 @@ async function buildOptions(repoNames: string[]): Promise<ProjectOptions> {
   return { ...opts, projectDir: join(process.cwd(), opts.projectName) };
 }
 
-export { buildOptions };
+async function confirmOptions(): Promise<boolean> {
+  const { confirmation } = await prompt([
+    {
+      type: 'confirm',
+      name: 'confirmation',
+      message: 'proceed 👍',
+      default: false,
+    },
+  ]);
+
+  return confirmation;
+}
+
+export { buildOptions, confirmOptions };
