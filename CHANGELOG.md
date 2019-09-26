@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.2](https://github.com/sparkbox/carbon-cli/compare/v0.5.1...v0.5.2) (2019-09-26)
+
+
+### Features
+
+* add confirmation step to user flow ([#12](https://github.com/sparkbox/carbon-cli/issues/12)) ([2161743](https://github.com/sparkbox/carbon-cli/commit/2161743))
+
 ### [0.5.1](https://github.com/sparkbox/carbon-cli/compare/v0.5.0...v0.5.1) (2019-09-25)
 
 ## [0.5.0](https://github.com/sparkbox/carbon-cli/compare/v0.4.0...v0.5.0) (2019-09-25)
