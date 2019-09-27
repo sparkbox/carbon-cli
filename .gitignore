@@ -56,8 +56,6 @@ typings/
 
 # project
 dist/
-man/*
-!man/*.ronn
 .vscode/
 .nyc_output
 coverage

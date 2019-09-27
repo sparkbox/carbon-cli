@@ -10,13 +10,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    '@typescript-eslint/no-use-before-define': 0,
-    '@typescript-eslint/camelcase': [
-      2,
-      {
-        allow: ['per_page', 'allow_merge_commit', 'ssh_url', 'clone_url', 'team_id', 'archive_format'],
-      },
-    ],
+    '@typescript-eslint/no-use-before-define': 0
   },
   overrides: [
     {

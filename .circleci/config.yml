@@ -63,15 +63,16 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
-      - add_ssh_keys:
-          fingerprints:
-            - "3b:ac:c5:c5:9d:30:34:7b:6e:d2:19:87:21:90:c2:87"
+      # replace this with a generated project fingerprint for push access
+      # - add_ssh_keys:
+      #     fingerprints:
+      #       - "3b:ac:c5:c5:9d:30:34:7b:6e:d2:19:87:21:90:c2:87"
       - run:
           name: promote release
           command: |
             ssh-keyscan github.com >> ~/.ssh/known_hosts
-            git config --global user.email jacobs@heysparkbox.com
-            git config --global user.name iAmNathanJ
+            git config --global user.name gitUserName
+            git config --global user.email gitUserEmail
             npm run release
             npm publish
             git push --follow-tags origin master
