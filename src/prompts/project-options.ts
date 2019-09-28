@@ -5,16 +5,11 @@
 import { join } from 'path';
 import { prompt, registerPrompt, Answers } from 'inquirer';
 import autocomplete from 'inquirer-autocomplete-prompt';
-import chalk from 'chalk';
 import fuzzy from 'fuzzy';
-import { kebabCase, startCase } from '../util';
+import { kebabCase, startCase, displayAsPath } from '../util';
 import { ProjectOptions } from '../types';
 
 registerPrompt('autocomplete', autocomplete);
-
-const displayAsPath = (newProjectDir: string): string => {
-  return `${chalk.gray(process.cwd() + '/')}${chalk.cyan(kebabCase(newProjectDir))}`;
-};
 
 async function buildOptions(repoNames: string[]): Promise<ProjectOptions> {
   const opts = await prompt([
@@ -22,11 +17,7 @@ async function buildOptions(repoNames: string[]): Promise<ProjectOptions> {
       type: 'autocomplete',
       name: 'sourceRepo',
       message: 'search for a repo to replicate',
-      async source(answers: Answers[], input: string): Promise<string[]> {
-        input = input || '';
-        const fuzzyResult = fuzzy.filter(input, repoNames);
-        return fuzzyResult.map(el => el.original);
-      },
+      source: fuzzyMatch(repoNames),
     },
     {
       type: 'input',
@@ -73,4 +64,12 @@ async function confirmOptions(): Promise<boolean> {
   return confirmation;
 }
 
-export { buildOptions, confirmOptions };
+function fuzzyMatch(repoNames: string[]) {
+  return async (answers: Answers[], input: string): Promise<string[]> => {
+    input = input || '';
+    const fuzzyResult = fuzzy.filter(input, repoNames);
+    return fuzzyResult.map(el => el.original);
+  };
+}
+
+export { buildOptions, confirmOptions, fuzzyMatch };
