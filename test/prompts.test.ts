@@ -1,4 +1,5 @@
 import test from 'ava';
+import { match } from 'sinon';
 import rewiremock from 'rewiremock';
 import mockInquirer from './mocks/mock-inquirer';
 
@@ -26,9 +27,9 @@ test('buildOptions prompt', async t => {
     inquirer: mockInquirer,
     'inquirer-autocomplete-prompt': () => {},
   });
-  const answers = await buildOptions(['repo1', 'repo2']);
+  const answers = await buildOptions([{ name: 'test-autocomplete' }]);
   t.deepEqual(answers, {
-    sourceRepo: 'test-sourceRepo',
+    sourceRepo: { name: 'test-autocomplete' },
     branch: 'test-branch',
     projectName: 'test-projectName',
     projectNameHuman: 'test-projectNameHuman',

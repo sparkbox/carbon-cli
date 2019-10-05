@@ -22,26 +22,27 @@ test('instantiates octokit with correct args', async t => {
         password: 'test-password',
         username: 'test-user',
       },
+      log: { debug: match.func },
     }),
   );
 });
 
 test('getRepos', async t => {
-  const { getRepos } = await rewiremock.module(() => import('../src/github'), {
+  const { getUserRepos } = await rewiremock.module(() => import('../src/github'), {
     '@octokit/rest': octokitSpy,
     './prompts': mockPrompts,
   });
   const gh = {
     repos: {
-      listForOrg: stub().returns(Promise.resolve({ data: {} })),
+      listForUser: stub().returns(Promise.resolve({ data: {} })),
     },
   };
 
-  await getRepos((gh as unknown) as Octokit);
+  await getUserRepos((gh as unknown) as Octokit, 'test-user');
 
   t.assert(
-    gh.repos.listForOrg.calledWith({
-      org: 'sparkbox',
+    gh.repos.listForUser.calledWith({
+      username: 'test-user',
       type: 'all',
       sort: 'updated',
       per_page: 100,
@@ -50,7 +51,7 @@ test('getRepos', async t => {
 });
 
 test('createRepo', async t => {
-  const { createRepo } = await rewiremock.module(() => import('../src/github'), {
+  const { createUserRepo } = await rewiremock.module(() => import('../src/github'), {
     '@octokit/rest': octokitSpy,
     './prompts': mockPrompts,
   });
@@ -60,7 +61,7 @@ test('createRepo', async t => {
     },
   };
 
-  await createRepo((gh as unknown) as Octokit, 'test-repo-name');
+  await createUserRepo((gh as unknown) as Octokit, 'test-repo-name');
 
   t.assert(
     gh.repos.createForAuthenticatedUser.calledWith({

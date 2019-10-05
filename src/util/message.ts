@@ -5,7 +5,6 @@
 
 import boxen from 'boxen';
 import chalk from 'chalk';
-import { NewRepo, ProjectOptions } from '../types';
 
 const { red, gray, magenta, cyan, yellow } = chalk;
 
@@ -20,7 +19,7 @@ message.error = function(...args: any[]): void {
 function reviewOptions(projectOptions: ProjectOptions): void {
   const summary = `Please Review
 
-${gray.bold('from:')} ${magenta(projectOptions.sourceRepo)}:${magenta(projectOptions.branch)}
+${gray.bold('from:')} ${magenta(projectOptions.sourceRepo.name)}:${magenta(projectOptions.branch)}
 ${gray.bold('to:')} ${cyan(projectOptions.projectDir)}
 
 ${
