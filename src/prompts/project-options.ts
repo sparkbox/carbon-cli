@@ -7,18 +7,22 @@ import { prompt, registerPrompt, Answers } from 'inquirer';
 import autocomplete from 'inquirer-autocomplete-prompt';
 import fuzzy from 'fuzzy';
 import { kebabCase, startCase, displayAsPath } from '../util';
-import { ProjectOptions } from '../types';
 
 registerPrompt('autocomplete', autocomplete);
 
-async function buildOptions(repoNames: string[]): Promise<ProjectOptions> {
-  const opts = await prompt([
+async function buildOptions(repos: Repo[]): Promise<ProjectOptions> {
+  const repoNames = repos.map(r => r.name);
+
+  const { sourceRepoName } = await prompt([
     {
       type: 'autocomplete',
-      name: 'sourceRepo',
+      name: 'sourceRepoName',
       message: 'search for a repo to replicate',
       source: fuzzyMatch(repoNames),
     },
+  ]);
+
+  const opts = await prompt([
     {
       type: 'input',
       name: 'branch',
@@ -48,7 +52,10 @@ async function buildOptions(repoNames: string[]): Promise<ProjectOptions> {
     },
   ]);
 
-  return { ...opts, projectDir: join(process.cwd(), opts.projectName) };
+  const sourceRepo = repos.find(r => r.name === sourceRepoName);
+  const projectDir = join(process.cwd(), opts.projectName);
+
+  return { ...opts, sourceRepo, projectDir };
 }
 
 async function confirmOptions(): Promise<boolean> {
